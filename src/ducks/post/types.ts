@@ -1,11 +1,15 @@
-import { Post } from "../models/Post";
+import { Post } from "../../models/Post";
 
 export enum EPostActionTypes {
     ADD_POST = 'ADD_POST',
+    ADD_POST_ERROR = 'ADD_POST_ERROR',
     FETCH_POSTS = 'FETCH_POSTS',
     FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR',
     DELETE_POST = 'DELETE_POST',
+    DELETE_POST_ERROR = 'DELETE_POST_ERROR',
     GET_POST = 'GET_POST',
+    GET_POST_COMPLETED = 'GET_POST_COMPLETED',
+    GET_POST_ERROR = 'GET_POST_ERROR',
     IS_LOADING = 'IS_LOADING'
 }
 
@@ -14,9 +18,19 @@ export interface IAddPostAction {
     payload: Post;
 }
 
+export interface IAddPostErrorAction {
+    type: EPostActionTypes.ADD_POST_ERROR;
+    isError: boolean;
+}
+
 export interface IFetchPostsAction {
     type: EPostActionTypes.FETCH_POSTS;
     payload: Post[];
+}
+
+export interface IFetchPostsErrorAction {
+    type: EPostActionTypes.FETCH_POSTS_ERROR;
+    isError: boolean;
 }
 
 export interface IGetPostAction {
@@ -34,8 +48,4 @@ export interface IIsLoading {
     isLoading: boolean
 }
 
-export interface IFetchPostsError {
-    type: EPostActionTypes.FETCH_POSTS_ERROR
-}
-
-export type PostActionTypes = IAddPostAction | IFetchPostsAction | IGetPostAction | IDeletePostAction | IIsLoading | IFetchPostsError;
+export type PostActionTypes = IAddPostAction | IFetchPostsAction | IGetPostAction | IDeletePostAction | IIsLoading | IFetchPostsErrorAction;

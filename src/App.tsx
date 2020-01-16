@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import { Post } from './models/Post';
-import { PostActionTypes } from './constants/postActionType';
+import { PostActionTypes } from './ducks/post/types';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { fetchPostsAction } from './actions/postAction';
-import PostComponent from './components/PostComponent';
+import { fetchPostsAction } from './ducks/post/operatios';
+import PostComponent from './ui/components/PostComponent';
 import { makeStyles } from '@material-ui/core/styles';
-import LoginComponent from './components/LoginComponent';
+import LoginComponent from './ui/components/LoginComponent';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -16,13 +16,8 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import HomeContainer from './components/HomeContainer';
-import AppBarComponent from './components/AppBarComponent';
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> & {
-    label: string;
-  };
+import HomeContainer from './ui/containers/HomeContainer';
+import AppBarComponent from './ui/components/AppBarComponent';
 
 const useStyles = makeStyles({
   postComponet: {
@@ -33,23 +28,8 @@ const useStyles = makeStyles({
   }
 });
 
-const App: React.FC<any> = (props): any => {
+const App: React.FC = () => {
   const classes = useStyles();
-  // const posts: Post[] = props.posts;
-
-  // if (props.posts.length == 0) {
-  //   props.getPosts();
-  // }
-
-  // const showPosts = (): JSX.Element[] => {
-  //   return posts.map((post: Post) => {
-  //     return <PostComponent className={classes.postComponet} key={post.id} post={post} />
-  //   })
-  // }
-
-  // const showAlert = (): JSX.Element => {
-  //   return <Alert severity="warning">No data.</Alert>
-  // }
 
   const isLogged = (): boolean => {
     return true
@@ -89,16 +69,4 @@ const App: React.FC<any> = (props): any => {
   )
 }
 
-const mapStateToProps = (state: any) => ({
-  posts: state.postState.data
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<PostActionTypes>) => {
-  return {
-    getPosts: () => fetchPostsAction(dispatch)
-  }
-}
-
-type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -1,6 +1,6 @@
-import { Post } from "../models/Post";
-import { PostActionTypes, EPostActionTypes } from "../constants/postActionType";
-import { IAppState } from "../store/IAppState";
+import { Post } from "../../models/Post";
+import { PostActionTypes, EPostActionTypes } from "./types";
+import { IAppState } from "../../store/IAppState";
 
 
 

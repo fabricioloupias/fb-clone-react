@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk, { ThunkMiddleware } from "redux-thunk";
-import postReducer from "../reducers/postReducer";
+import postReducer from "../ducks/post/reducers";
 import { AppActions } from "../constants/appActions";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 export const rootReducer = combineReducers({
-  postState: postReducer
+  post: postReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
