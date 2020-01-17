@@ -1,20 +1,29 @@
 import React from "react";
-import { fetchPostsAction } from "../../ducks/post/operatios";
-import { PostActionTypes } from "../../ducks/post/types";
+import { postOperations, postTypes } from "../../ducks/post/index";
 import { Dispatch } from 'redux';
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import FeedComponent from "../components/FeedComponent";
 import NewPostComponent from "../components/NewPostComponent";
+import { Post } from "../../models/Post";
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             flexGrow: 1,
         },
+        my20: {
+            marginTop: 20,
+            marginBottom: 20
+        }
     }),
 );
+
+const handleNewPostSubmit = (post: Object) => {
+    // Do something with the form values
+    console.log(post);
+}
 
 const HomeContainer: React.FC<any> = ({ posts, getPosts }) => {
     const classes = useStyles();
@@ -30,7 +39,9 @@ const HomeContainer: React.FC<any> = ({ posts, getPosts }) => {
 
                 </Grid>
                 <Grid item xs={6}>
-                    <NewPostComponent></NewPostComponent>
+                    <div className={classes.my20}>
+                        <NewPostComponent onNewPostSubmit={handleNewPostSubmit}></NewPostComponent>
+                    </div>
                     <FeedComponent posts={posts}></FeedComponent>
                 </Grid>
                 <Grid item xs={3}>
@@ -45,9 +56,9 @@ const mapStateToProps = (state: any) => ({
     posts: state.post.data
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<PostActionTypes>) => {
+const mapDispatchToProps = (dispatch: Dispatch<postTypes.PostActionTypes>) => {
     return {
-        getPosts: () => fetchPostsAction(dispatch)
+        getPosts: () => postOperations.fetchPostsAction(dispatch)
     }
 }
 
