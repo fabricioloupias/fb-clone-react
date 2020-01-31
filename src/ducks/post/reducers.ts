@@ -2,8 +2,6 @@ import { Post } from "../../models/Post";
 import { PostActionTypes, EPostActionTypes } from "./types";
 import { IAppState } from "../../store/IAppState";
 
-
-
 const postReducerInitialState: IAppState = {
     data: [],
     isLoading: false,

@@ -1,23 +1,31 @@
 import React from 'react';
 import './App.css';
-import { Post } from './models/Post';
-import { PostActionTypes } from './ducks/post/types';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { fetchPostsAction } from './ducks/post/operatios';
-import PostComponent from './ui/components/PostComponent';
-import { makeStyles } from '@material-ui/core/styles';
-import LoginComponent from './ui/components/LoginComponent';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 import HomeContainer from './ui/containers/HomeContainer';
 import AppBarComponent from './ui/components/AppBarComponent';
+import SingInUpContainer from './ui/containers/SignInUpContainer';
+import firebase from "firebase/app";
+import "firebase/auth";
+import { FirebaseAuthProvider, FirebaseAuthConsumer } from "@react-firebase/auth";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { authTypes, authOperations } from './ducks/auth';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyADBm2Hw-EyfXiT-nbWA3gr5DzgClraquk",
+  authDomain: "fb-clone-server-373e0.firebaseapp.com",
+  databaseURL: "https://fb-clone-server-373e0.firebaseio.com",
+  projectId: "fb-clone-server-373e0",
+  storageBucket: "fb-clone-server-373e0.appspot.com",
+  messagingSenderId: "661210763493",
+  appId: "1:661210763493:web:63243e736e4cafdcbd040c",
+  measurementId: "G-EXKJENF6QS"
+};
 
 const useStyles = makeStyles({
   postComponet: {
@@ -28,45 +36,64 @@ const useStyles = makeStyles({
   }
 });
 
-const App: React.FC = () => {
+const theme = createMuiTheme({
+  overrides: {
+    MuiCircularProgress: {
+      root: {
+        display: 'block',
+        margin: 'auto'
+      }
+    },
+  },
+});
+
+const App: React.FC<any> = ({ signIn, signOut }) => {
   const classes = useStyles();
 
-  const isLogged = (): boolean => {
-    return true
-  }
-
   return (
-    isLogged()
-      ?
-      <Router>
-        <div>
-          <AppBarComponent></AppBarComponent>
+    <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
+      <FirebaseAuthConsumer>
+        {({ isSignedIn, user, providerId }) => {
+          if (isSignedIn) {
+            signIn(user);
+            return (
+              <Router>
+                <div>
+                  <AppBarComponent></AppBarComponent>
 
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/about">
+                  {/* A <Switch> looks through its children <Route>s and
+             renders the first one that matches the current URL. */}
+                  <Switch>
+                    <Route path="/about">
 
-            </Route>
-            <Route path="/users">
+                    </Route>
+                    <Route path="/users">
 
-            </Route>
-            <Route path="/">
-              <HomeContainer />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-      :
-      <Container maxWidth="md">
-        <Grid container className={classes.root} spacing={2}>
-          <Grid item xs={12} md={6}>
-            <LoginComponent />
-          </Grid>
-        </Grid>
-      </Container>
-
+                    </Route>
+                    <Route path="/">
+                      <HomeContainer />
+                    </Route>
+                  </Switch>
+                </div>
+              </Router>
+            )
+          } else {
+            signOut();
+            return (
+              <SingInUpContainer></SingInUpContainer>
+            )
+          }
+        }}
+      </FirebaseAuthConsumer>
+    </FirebaseAuthProvider>
   )
 }
 
-export default App;
+const mapDispatchToProps = (dispatch: Dispatch<authTypes.AuthActionTypes>) => {
+  return {
+    signIn: (user: firebase.UserInfo) => authOperations.signIn(dispatch, user),
+    signOut: () => authOperations.signOut(dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

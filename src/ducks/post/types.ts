@@ -2,6 +2,7 @@ import { Post } from "../../models/Post";
 
 export enum EPostActionTypes {
     ADD_POST = 'ADD_POST',
+    ADD_POST_SUCCESS = 'ADD_POST_SUCCESS',
     ADD_POST_ERROR = 'ADD_POST_ERROR',
     FETCH_POSTS = 'FETCH_POSTS',
     FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR',
@@ -16,6 +17,12 @@ export enum EPostActionTypes {
 export interface IAddPostAction {
     type: EPostActionTypes.ADD_POST;
     payload: Post;
+}
+
+export interface IAddPostSuccessAction {
+    type: EPostActionTypes.ADD_POST_SUCCESS;
+    payload: Post;
+    isSuccess: boolean;
 }
 
 export interface IAddPostErrorAction {
@@ -48,4 +55,4 @@ export interface IIsLoading {
     isLoading: boolean
 }
 
-export type PostActionTypes = IAddPostAction | IFetchPostsAction | IGetPostAction | IDeletePostAction | IIsLoading | IFetchPostsErrorAction;
+export type PostActionTypes = IAddPostAction | IAddPostSuccessAction | IAddPostErrorAction | IFetchPostsAction | IGetPostAction | IDeletePostAction | IIsLoading | IFetchPostsErrorAction;

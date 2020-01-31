@@ -14,6 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import * as firebase from "firebase/app";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -100,6 +101,11 @@ const AppBarComponent: React.FC = () => {
         handleMobileMenuClose();
     };
 
+    const handleSignOut = () => {
+        firebase.auth().signOut();
+        handleMenuClose();    
+    }
+
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
@@ -117,6 +123,7 @@ const AppBarComponent: React.FC = () => {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
         </Menu>
     );
 

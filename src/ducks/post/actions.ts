@@ -13,6 +13,21 @@ const fetchPosts = (dispatch: Dispatch<PostActionTypes>, posts: Post[]) => {
     });
 }
 
+const addPost = (dispatch: Dispatch<PostActionTypes>, response: any) => {
+    dispatch({
+        type: EPostActionTypes.ADD_POST,
+        payload: response,
+        isSuccess: true
+    })
+}
+
+const addPostError = (dispatch: Dispatch<PostActionTypes>, error: any) => {
+    dispatch({
+        type: EPostActionTypes.ADD_POST_ERROR,
+        isError: error
+    })
+}
+ 
 const fetchPostsError = (dispatch: Dispatch<PostActionTypes>) => {
     dispatch({
         type: EPostActionTypes.FETCH_POSTS_ERROR,
@@ -27,6 +42,6 @@ export const setIsLoading = (dispatch: Dispatch<PostActionTypes>, isLoading: boo
     })
 }
 
-export { fetchPosts, fetchPostsError}
+export { fetchPosts, fetchPostsError, addPost, addPostError}
 
 

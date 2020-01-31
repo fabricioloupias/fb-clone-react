@@ -1,7 +1,4 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Post } from '../../models/Post';
@@ -25,15 +22,8 @@ const NewPostComponent: React.FC<any> = ({ onNewPostSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit} noValidate autoComplete="off">
-            <Card variant="outlined">
-                <CardContent>
-
-                    <TextField id="outlined-basic" onChange={handleTextFieldChange} label="Outlined" variant="outlined" />
-                </CardContent>
-                <CardActions>
-                    <Button type="submit" variant="contained" color="primary">Send</Button>
-                </CardActions>
-            </Card>
+            <TextField fullWidth size="small" id="outlined-basic" onChange={handleTextFieldChange} label="Outlined" variant="outlined" />
+            <Button style={{marginTop: 10}} type="submit" variant="contained" color="primary">Send</Button>
         </form>
     )
 }

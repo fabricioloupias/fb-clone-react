@@ -3,9 +3,13 @@ import thunk, { ThunkMiddleware } from "redux-thunk";
 import postReducer from "../ducks/post/reducers";
 import { AppActions } from "../constants/appActions";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import newsReducer from "../ducks/news/reducers";
+import authReducer from '../ducks/auth/index';
 
 export const rootReducer = combineReducers({
-  post: postReducer
+  post: postReducer,
+  news: newsReducer,
+  auth: authReducer 
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -4,9 +4,12 @@ import PostComponent from './PostComponent';
 
 const FeedComponent = (props: any): any => {
     const posts : Post[] = props.posts;
-    return posts.map(post => {
-        return <PostComponent key={post.id} post={post}></PostComponent>
-    })
+    if(posts.length > 0){
+        return posts.map((post, index) => {
+            return <PostComponent key={index} post={post}></PostComponent>
+        })
+    }
+    return null
 }
 
 export default FeedComponent;
