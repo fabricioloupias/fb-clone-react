@@ -4,6 +4,7 @@ import { authOperations, authAction, authTypes } from ".";
 import { API_PATH, API_PATH_AUTH } from '../../constants/api'
 import { AuthActionTypes } from "./types";
 import { User } from "../../models/User";
+import { StateActionTypes } from "../state/types";
 
 const API_URL = `${API_PATH}${API_PATH_AUTH}`
 
@@ -29,6 +30,7 @@ export function signIn(dispatch: Dispatch<AuthActionTypes>, user: firebase.UserI
 
 export function signOut(dispatch: Dispatch<AuthActionTypes>) {
     authAction.signOut(dispatch);
+    authAction.clearState(dispatch);
 }
 
 export function setShowSignUp(dispatch: Dispatch<AuthActionTypes>, showSignUp: boolean) {

@@ -5,12 +5,25 @@ import { AppActions } from "../constants/appActions";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import newsReducer from "../ducks/news/reducers";
 import authReducer from '../ducks/auth/index';
+import { stateTypes } from "../ducks/state";
 
-export const rootReducer = combineReducers({
+
+const appReducer = combineReducers({
   post: postReducer,
   news: newsReducer,
-  auth: authReducer 
-});
+  auth: authReducer
+})
+
+const rootReducer = (state: any, action: any) => {
+  if(action.type === stateTypes.EStateActionTypes.CLEAR_STATE){
+    state = undefined
+  }
+  return appReducer(state, action)
+}
+
+// export const rootReducer = combineReducers({
+
+// });
 
 export type AppState = ReturnType<typeof rootReducer>;
 

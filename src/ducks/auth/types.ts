@@ -1,4 +1,5 @@
 import { User } from "../../models/User";
+import { StateActionTypes } from "../state/types";
 
 export enum EAuthActionTypes {
     SIGN_IN = 'SIGN_IN',
@@ -39,5 +40,5 @@ export interface ISignOut {
     type: EAuthActionTypes.SIGN_OUT;
 }
 
-export type AuthActionTypes = ISignIn | ISignUp | ISignUpLoading | ISignUpError | IShowSignUp | ISignOut;
+export type AuthActionTypes = ISignIn | ISignUp | ISignUpLoading | ISignUpError | IShowSignUp | ISignOut | StateActionTypes;
 

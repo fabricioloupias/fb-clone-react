@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { authTypes } from "./index";
 import { User } from "../../models/User";
 import { ServerResponse } from "../../models/ServerResponse";
+import { stateTypes } from "../state";
 
 const signIn = (dispatch: Dispatch<authTypes.AuthActionTypes>, user: firebase.UserInfo) => {
     dispatch({
@@ -34,6 +35,12 @@ const setIsLoading = (dispatch: Dispatch<authTypes.AuthActionTypes>, isLoading: 
     })
 }
 
+const clearState = (dispatch: Dispatch<stateTypes.StateActionTypes>) => {
+    dispatch({
+        type: stateTypes.EStateActionTypes.CLEAR_STATE
+    })
+}
+
 const signOut = (dispatch: Dispatch<authTypes.AuthActionTypes>) => {
     dispatch({
         type: authTypes.EAuthActionTypes.SIGN_OUT
@@ -47,4 +54,4 @@ const setShowSignUp = (dispatch: Dispatch<authTypes.AuthActionTypes>, showSignUp
     })
 }
 
-export { signUp, signUpError, setIsLoading, setShowSignUp, signIn, signOut };
+export { signUp, signUpError, setIsLoading, setShowSignUp, signIn, signOut, clearState };
