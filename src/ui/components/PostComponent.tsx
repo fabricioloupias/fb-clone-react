@@ -8,6 +8,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import Moment from 'moment';
 import { deepOrange } from '@material-ui/core/colors';
+import firebase from "firebase/app";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,19 +29,18 @@ const useStyles = makeStyles((theme: Theme) =>
 const PostComponent: React.FC<any> = ({ post }) => {
 
     const classes = useStyles();
-    const postAux: Post = post;
-
+    const postAux: Post = post.post;
     return (
         <Card className={classes.card}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" src={postAux.photoURL} >
-                        {postAux.displayName?.charAt(0)}
+                    <Avatar aria-label="recipe" src={post.user.photoURL} >
+                        {post.user.displayName?.charAt(0)}
                     </Avatar>
                 }
 
-                title={postAux.displayName}
-                subheader={Moment(postAux.createdAt).format("DD/MM/YYYY hh:mm:ss")}
+                title={post.user.displayName}
+                subheader=""
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">

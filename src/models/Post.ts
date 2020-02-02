@@ -1,4 +1,3 @@
-import * as firebase from "firebase/app";
 
 export interface Post{
     uid: string;

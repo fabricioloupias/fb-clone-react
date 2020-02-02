@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { postTypes, postOperations } from '../../ducks/post';
 import { Post } from '../../models/Post';
+import Paper from '@material-ui/core/Paper';
+import { AppState } from '../../store/store';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -44,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const NewPostContainer: React.FC<any> = ({addPost}) => {
+const NewPostContainer: React.FC<any> = ({ addPost, auth }) => {
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
     const [openModal, setOpenModal] = useState(false);
@@ -58,7 +60,7 @@ const NewPostContainer: React.FC<any> = ({addPost}) => {
     };
 
     const handlePostSubmit = (post: Post) => {
-        addPost(post);
+        addPost(post, auth.currentUser);
     }
     return (
         <div>
@@ -70,14 +72,15 @@ const NewPostContainer: React.FC<any> = ({addPost}) => {
                 closeAfterTransition
                 className={classes.modal}
                 BackdropComponent={Backdrop}
+                disableAutoFocus={true}
                 BackdropProps={{
-                    timeout: 500,
+                    timeout: 250,
                 }}
             >
                 <Fade in={openModal}>
-                    <div style={modalStyle} className={classes.paper}>
+                    <Paper style={modalStyle} className={classes.paper}>
                         <NewPostComponent onNewPostSubmit={handlePostSubmit}></NewPostComponent>
-                    </div>
+                    </Paper>
                 </Fade>
             </Modal>
             <Card onClick={handleOpen}>
@@ -90,10 +93,14 @@ const NewPostContainer: React.FC<any> = ({addPost}) => {
     )
 }
 
+const mapStateToProps = (state: AppState) => ({
+    auth: state.auth
+})
+
 const mapDispatchToProps = (dispatch: Dispatch<postTypes.PostActionTypes>) => {
     return {
-        addPost: (post: Post) => postOperations.addPostAction(dispatch, post)
+        addPost: (post: Post, user: firebase.UserInfo) => postOperations.addPostAction(dispatch, post, user)
     }
 }
 
-export default connect(null, mapDispatchToProps)(NewPostContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NewPostContainer);

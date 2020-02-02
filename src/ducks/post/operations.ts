@@ -13,7 +13,7 @@ export function fetchPostsAction(dispatch: Dispatch<PostActionTypes>, userId: st
         .post(`${API_URL}/getPostsFriends`, {userId})
         .then(response => {
             postAction.setIsLoading(dispatch, false);
-            const posts = response.data.posts;
+            const posts = response.data.data;
             postAction.fetchPosts(dispatch, posts);
         })
         .catch((e) => {
@@ -22,9 +22,9 @@ export function fetchPostsAction(dispatch: Dispatch<PostActionTypes>, userId: st
         })
 }   
 
-export function addPostAction(dispatch: Dispatch<PostActionTypes>, post: Post){
+export function addPostAction(dispatch: Dispatch<PostActionTypes>, post: Post, user: firebase.UserInfo){
     axios   
-        .post(`${API_PATH}/postsa`, post)
+        .post(`${API_PATH}/posts`, {post, user})
         .then(response => {
             if(response.status)
                 postAction.addPost(dispatch, response.data);

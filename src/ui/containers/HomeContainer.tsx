@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { postOperations, postTypes } from "../../ducks/post/index";
 import { Dispatch } from 'redux';
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import FeedComponent from "../components/FeedComponent";
 import NewPostContainer from "../containers/NewPostContainer";
 import NewsContainer from "./NewsContainer";
 import Container from "@material-ui/core/Container";
+import { AppState } from "../../store/store";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,9 +26,10 @@ const useStyles = makeStyles(() =>
 const HomeContainer: React.FC<any> = ({ posts, getPosts, auth }) => {
     const classes = useStyles();
 
-    if (posts.length == 0 && auth.currentUser) {
-        getPosts(auth.currentUser.uid);
-    }
+    useEffect(() => {
+        if (auth.currentUser.uid)
+            getPosts(auth.currentUser.uid)
+    },[auth.currentUser.uid]);
 
     return (
         <div className={classes.root}>
@@ -40,7 +42,12 @@ const HomeContainer: React.FC<any> = ({ posts, getPosts, auth }) => {
                         <div >
                             <NewPostContainer></NewPostContainer>
                         </div>
-                        <FeedComponent posts={posts}></FeedComponent>
+                        {posts.length > 0 
+                            ? 
+                            <FeedComponent posts={posts}></FeedComponent>
+                            :
+                            null
+                        }
                     </Grid>
                     <Grid item xs={3}>
 
@@ -56,10 +63,8 @@ const mapStateToProps = (state: any) => ({
     auth: state.auth
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<postTypes.PostActionTypes>) => {
-    return {
-        getPosts: (userId: string) => postOperations.fetchPostsAction(dispatch, userId)
-    }
-}
+const mapDispatchToProps = (dispatch: Dispatch<postTypes.PostActionTypes>) => ({
+    getPosts: (userId: string) => postOperations.fetchPostsAction(dispatch, userId)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

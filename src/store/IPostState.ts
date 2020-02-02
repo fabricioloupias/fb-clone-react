@@ -1,7 +1,7 @@
-import { Post } from "../models/Post";
+import { PostResponse } from "../models/PostResponse";
 
 export interface IPostState {
-    data: Post | Post[],
+    data: PostResponse,
     isLoading: boolean,
     error: boolean;
 }
