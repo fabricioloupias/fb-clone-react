@@ -42,10 +42,8 @@ const SingInUpContainer: React.FC<any> = ({ signUp, auth, setShowSignUp }) => {
     const onSubmitLogin = (user: any) => {
         firebase.auth().signInWithEmailAndPassword(user.email, user.password)
             .then(response => {
-                console.log(response)
             })
             .catch(error => {
-                console.log(error)
             })
     }
 

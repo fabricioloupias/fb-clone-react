@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { authTypes, authOperations } from './ducks/auth';
 
+
 export const firebaseConfig = {
   apiKey: "AIzaSyADBm2Hw-EyfXiT-nbWA3gr5DzgClraquk",
   authDomain: "fb-clone-server-373e0.firebaseapp.com",
@@ -37,6 +38,9 @@ const useStyles = makeStyles({
 });
 
 const theme = createMuiTheme({
+  palette:{
+    type: 'dark'
+  },
   overrides: {
     MuiCircularProgress: {
       root: {
@@ -46,6 +50,8 @@ const theme = createMuiTheme({
     },
   },
 });
+
+
 
 const App: React.FC<any> = ({ signIn, signOut }) => {
   const classes = useStyles();
